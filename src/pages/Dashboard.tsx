@@ -12,14 +12,13 @@ import {
   EyeOff,
   ArrowUpRight,
   ArrowDownLeft,
-  Freeze,
+  Snowflake,
 } from 'lucide-react';
 import VirtualCard from '../components/VirtualCard';
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
 
   // Mock data
   const balance = 15234.56;
@@ -131,7 +130,7 @@ export default function Dashboard() {
               </div>
               <div className="mt-6 flex space-x-4">
                 <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                  <Freeze size={18} />
+                  <Snowflake size={18} />
                   <span>冻结卡片</span>
                 </button>
                 <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
