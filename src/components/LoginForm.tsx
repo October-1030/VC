@@ -73,11 +73,11 @@ export default function LoginForm() {
               type="checkbox"
               checked={formData.remember}
               onChange={(e) => setFormData({ ...formData, remember: e.target.checked })}
-              className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+              className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
             />
             <span className="text-gray-600">记住密码</span>
           </label>
-          <a href="/reset-password" className="text-purple-600 hover:text-purple-700">
+          <a href="/reset-password" className="text-teal-600 hover:text-teal-700">
             忘记密码？
           </a>
         </div>
@@ -90,7 +90,7 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="text-center text-sm text-gray-600">
           还没有账号？
-          <a href="/register" className="text-purple-600 hover:text-purple-700 font-semibold ml-1">
+          <a href="/register" className="text-teal-600 hover:text-teal-700 font-semibold ml-1">
             立即注册
           </a>
         </div>

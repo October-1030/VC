@@ -3,6 +3,7 @@ import VirtualCard from '../components/VirtualCard';
 import LoginForm from '../components/LoginForm';
 import FeatureCards from '../components/FeatureCards';
 import SocialLogin from '../components/SocialLogin';
+import { Shield } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -15,13 +16,13 @@ export default function LandingPage() {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-3"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-cyan-600 rounded-lg
                           flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">A</span>
+              <Shield className="text-white" size={24} />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600
+            <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600
                            bg-clip-text text-transparent">
-              AnLianFu
+              VaultCard
             </span>
           </motion.div>
 
@@ -30,13 +31,13 @@ export default function LandingPage() {
             animate={{ opacity: 1, x: 0 }}
             className="hidden md:flex items-center space-x-8"
           >
-            <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">
+            <a href="#features" className="text-gray-600 hover:text-teal-600 transition-colors">
               功能特性
             </a>
-            <a href="#pricing" className="text-gray-600 hover:text-purple-600 transition-colors">
+            <a href="#pricing" className="text-gray-600 hover:text-teal-600 transition-colors">
               价格方案
             </a>
-            <a href="#about" className="text-gray-600 hover:text-purple-600 transition-colors">
+            <a href="#about" className="text-gray-600 hover:text-teal-600 transition-colors">
               关于我们
             </a>
           </motion.nav>
@@ -49,7 +50,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Section - Card Display */}
             <div className="flex flex-col items-center lg:items-start space-y-8">
-              <VirtualCard />
+              <VirtualCard cardType="gold" />
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -60,12 +61,12 @@ export default function LandingPage() {
                 <h1 className="text-4xl font-bold text-gray-800 mb-4">
                   快速注册
                 </h1>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600
                              bg-clip-text text-transparent mb-6">
                   开启体验
                 </h2>
                 <p className="text-gray-600 text-lg">
-                  安全、便捷的虚拟支付解决方案
+                  您的数字支付金库 · 安全便捷的虚拟卡解决方案
                 </p>
               </motion.div>
 
@@ -88,7 +89,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-6 text-center text-gray-500 text-sm">
-        <p>Copyright © 2018-2025 All Rights Reserved</p>
+        <p>Copyright © 2025 VaultCard · All Rights Reserved</p>
       </footer>
     </div>
   );
