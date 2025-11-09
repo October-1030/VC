@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
 
 export default function LoginForm() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -14,6 +16,8 @@ export default function LoginForm() {
     e.preventDefault();
     console.log('Login submitted:', formData);
     // TODO: Implement login logic
+    // After successful login, redirect to dashboard
+    navigate('/dashboard');
   };
 
   return (
@@ -77,9 +81,9 @@ export default function LoginForm() {
             />
             <span className="text-gray-600">记住密码</span>
           </label>
-          <a href="/reset-password" className="text-teal-600 hover:text-teal-700">
+          <Link to="/reset-password" className="text-teal-600 hover:text-teal-700">
             忘记密码？
-          </a>
+          </Link>
         </div>
 
         {/* Login Button */}
@@ -90,9 +94,9 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="text-center text-sm text-gray-600">
           还没有账号？
-          <a href="/register" className="text-teal-600 hover:text-teal-700 font-semibold ml-1">
+          <Link to="/register" className="text-teal-600 hover:text-teal-700 font-semibold ml-1">
             立即注册
-          </a>
+          </Link>
         </div>
       </form>
     </motion.div>
