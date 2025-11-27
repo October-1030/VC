@@ -1,0 +1,74 @@
+# VaultCard 后端配置文件
+#
+# 核心特性：通过修改 payment.provider.active 可以随时切换支付服务商
+# - stripe: 使用Stripe Issuing
+# - marqeta: 使用Marqeta (需要实现MarqetaProvider)
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: vaultcard-backend
+
+# =========================================
+# 支付服务配置（核心配置）
+# =========================================
+payment:
+  # 当前激活的支付服务商
+  # 修改这个值可以切换provider，前端代码无需任何改动！
+  provider:
+    active: stripe  # 可选: stripe, marqeta
+
+    # Stripe配置
+    stripe:
+      secret-key: ${STRIPE_SECRET_KEY:sk_test_YOUR_TEST_KEY}
+      webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_YOUR_WEBHOOK_SECRET}
+
+    # Marqeta配置（备用）
+    marqeta:
+      app-token: ${MARQETA_APP_TOKEN:}
+      admin-token: ${MARQETA_ADMIN_TOKEN:}
+      base-url: https://sandbox-api.marqeta.com/v3
+
+  # 汇率配置（可以对接实时汇率API）
+  exchange-rate:
+    usd-cny: 7.26  # 美元兑人民币汇率
+
+# =========================================
+# 日志配置
+# =========================================
+logging:
+  level:
+    com.vaultcard: DEBUG
+    com.stripe: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# =========================================
+# 开发环境配置
+# =========================================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    com.vaultcard: DEBUG
+
+# =========================================
+# 生产环境配置
+# =========================================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    com.vaultcard: INFO
