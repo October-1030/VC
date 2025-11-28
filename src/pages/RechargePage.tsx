@@ -12,7 +12,7 @@ export default function RechargePage() {
   const [amount, setAmount] = useState(100);
   const [paymentMethod, setPaymentMethod] = useState<'alipay' | 'card' | 'wechat_pay'>('alipay');
   const [loading, setLoading] = useState(false);
-  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+  const [_paymentUrl, setPaymentUrl] = useState<string | null>(null);
   const [estimatedCNY, setEstimatedCNY] = useState(0);
 
   // 当用户输入金额时，实时显示人民币金额
