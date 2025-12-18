@@ -1,8 +1,7 @@
-# VaultCard 后端配置文件
+# VaultCard Backend Configuration
 #
-# 核心特性：通过修改 payment.provider.active 可以随时切换支付服务商
-# - stripe: 使用Stripe Issuing
-# - marqeta: 使用Marqeta (需要实现MarqetaProvider)
+# IMPORTANT: This is an internal developer prototype for testing Stripe Issuing.
+# Not for public use. All Stripe operations use Test Mode by default.
 
 server:
   port: 8080
@@ -13,42 +12,83 @@ spring:
   application:
     name: vaultcard-backend
 
+  # =========================================
+  # Database Configuration (H2 for development)
+  # =========================================
+  datasource:
+    url: jdbc:h2:file:./data/vaultcard;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # H2 Console (for development debugging)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false  # Security: only localhost access
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update  # Auto-create/update schema (use 'validate' in production)
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
 # =========================================
-# 支付服务配置（核心配置）
+# Stripe Configuration (Test Mode)
+# =========================================
+stripe:
+  secret-key: ${STRIPE_SECRET_KEY:sk_test_YOUR_TEST_KEY}
+  webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_YOUR_WEBHOOK_SECRET}
+
+# =========================================
+# VaultCard Business Configuration
+# =========================================
+vaultcard:
+  # Maximum subscriptions per user
+  max-subscriptions-per-user: 10
+  # Maximum cards per user
+  max-cards-per-user: 20
+
+# =========================================
+# Legacy Payment Provider Config (for backward compatibility)
 # =========================================
 payment:
-  # 当前激活的支付服务商
-  # 修改这个值可以切换provider，前端代码无需任何改动！
   provider:
-    active: stripe  # 可选: stripe, marqeta
+    active: stripe
 
-    # Stripe配置
     stripe:
       secret-key: ${STRIPE_SECRET_KEY:sk_test_YOUR_TEST_KEY}
       webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_YOUR_WEBHOOK_SECRET}
 
-    # Marqeta配置（备用）
     marqeta:
       app-token: ${MARQETA_APP_TOKEN:}
       admin-token: ${MARQETA_ADMIN_TOKEN:}
       base-url: https://sandbox-api.marqeta.com/v3
 
-  # 汇率配置（可以对接实时汇率API）
   exchange-rate:
-    usd-cny: 7.26  # 美元兑人民币汇率
+    usd-cny: 7.26
 
 # =========================================
-# 日志配置
+# Logging Configuration
 # =========================================
 logging:
   level:
     com.vaultcard: DEBUG
-    com.stripe: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    # IMPORTANT: Never log sensitive card data
+    com.stripe: INFO
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 # =========================================
-# 开发环境配置
+# Development Profile
 # =========================================
 ---
 spring:
@@ -56,12 +96,22 @@ spring:
     activate:
       on-profile: dev
 
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop  # Reset DB on restart in dev
+
 logging:
   level:
     com.vaultcard: DEBUG
+    org.hibernate.SQL: DEBUG
 
 # =========================================
-# 生产环境配置
+# Production Profile
 # =========================================
 ---
 spring:
@@ -69,6 +119,26 @@ spring:
     activate:
       on-profile: prod
 
+  # In production, use PostgreSQL
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/vaultcard}
+    driver-class-name: org.postgresql.Driver
+    username: ${DATABASE_USER:vaultcard}
+    password: ${DATABASE_PASSWORD:}
+
+  h2:
+    console:
+      enabled: false
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate  # Don't auto-modify schema in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
 logging:
   level:
     com.vaultcard: INFO
+    org.hibernate.SQL: WARN
