@@ -135,11 +135,114 @@
 
 **已完成**: 域名 vaultcard.vip 成功绑定到 Vercel ✅
 
-**下一步**:
-1. 联系 Stripe Sales 申请 Issuing live mode
-2. 在 Stripe 测试模式下创建 Cardholder 和虚拟卡
-3. 测试完整的充值和发卡流程
+---
+
+## 2025年12月17日 工作记录
+
+### 1. 前端重构为内部开发者原型（Stripe 合规）
+
+#### 1.1 页面修改
+- **LandingPage.tsx**: 改为英文版，标注 "Internal Developer Prototype"
+- **Dashboard.tsx**: 添加 Test Mode 标识，Sandbox 环境提示
+- **LoginPage.tsx**: 新增内部用户登录页面
+- **Layout.tsx / Navbar.tsx / Footer.tsx**: 新增布局组件
+
+#### 1.2 删除的页面（符合 Stripe 规范）
+- RegisterPage.tsx（公开注册）
+- ResetPasswordPage.tsx（密码重置）
+- RechargePage.tsx（充值页面）
+- LandingPageEN.tsx（英文首页，已合并到主页）
+- FeatureCards.tsx / RegisterForm.tsx / SocialLogin.tsx / VirtualCard.tsx
+
+#### 1.3 关键措辞更新
+- "Internal Developer Prototype" - 内部开发者原型
+- "Test Mode" / "Sandbox Environment" - 测试环境
+- "No public onboarding" - 无公开注册
+- "Invited internal test users only" - 仅限邀请的内部测试用户
+
+### 2. 后端 API 扩展
+
+#### 2.1 新增 Controller
+- **FundingController.java**: 充值 API (`/api/funding`)
+- **SubscriptionController.java**: 订阅管理 API (`/api/subscription`)
+- **WebhookController.java**: Stripe Webhook 处理 (`/api/webhook/stripe`)
+
+#### 2.2 新增 Service
+- **FundingService.java**: 充值业务逻辑
+- **SubscriptionService.java**: 订阅业务逻辑
+- **IssuingCardService.java**: 虚拟卡管理
+- **StripeWebhookService.java**: Webhook 事件处理
+
+#### 2.3 新增 Entity 和 Repository
+- User, IssuingCard, FundingTransaction, SubscriptionProfile, IssuingTransaction
+- 对应的 Repository 接口
+
+### 3. Git 提交记录
+```
+commit 72d443c - Refactor to internal developer prototype for Stripe compliance
+- 43 files changed, 3479 insertions(+), 1360 deletions(-)
+```
+
+### 4. Stripe Issuing 申请已提交 ✅
+
+#### 4.1 申请表填写内容
+| 字段 | 填写内容 |
+|------|---------|
+| First name | Richard |
+| Last name | Tang |
+| Work email | richard@vaultcard.vip |
+| Company website | https://www.vaultcard.vip |
+| Country/Region | United States |
+| Customers | My own business |
+| Customer location | United States |
+| Crypto | No |
+| Business expense card | Yes |
+| Estimated volume | Less than $1,000,000 |
+| Funding | We're not a funded startup |
+| Use case | Internal developer prototype for testing Stripe Issuing integration |
+
+#### 4.2 申请状态
+- **提交时间**: 2025年12月17日
+- **当前状态**: 等待 Stripe 审核
+- **预期结果**: 获得 Stripe Issuing Test Mode 访问权限
 
 ---
 
-*最后更新: 2024年12月*
+## 下一步计划
+
+### 等待 Stripe 审核通过后
+1. [ ] 在 Stripe Dashboard 激活 Issuing 功能
+2. [ ] 在 Test Mode 创建 Cardholder
+3. [ ] 在 Test Mode 创建虚拟卡
+4. [ ] 测试完整的发卡流程
+5. [ ] 连接前后端，调用真实 Stripe API
+
+### 功能开发（待 Issuing 权限后）
+1. [ ] 实现用户认证系统（JWT）
+2. [ ] 前端连接后端 API
+3. [ ] 实现充值流程（PaymentIntent）
+4. [ ] 实现卡片管理功能
+5. [ ] 部署后端到云服务器
+
+### 申请 Live Mode（产品完善后）
+1. [ ] 准备完整商业计划
+2. [ ] 联系 Stripe Sales 申请 Live Mode
+3. [ ] 完成 KYC/KYB 合规审核
+
+---
+
+## 重要提醒
+
+⚠️ **当前是 Test Mode 申请**
+- 通过后获得沙盒测试环境
+- 可以用测试卡号（4242...）开发
+- 无真实资金流动
+
+⚠️ **网站当前状态**
+- 首页：英文版内部原型说明
+- Dashboard：测试数据展示
+- 无注册功能（符合 Stripe 规范）
+
+---
+
+*最后更新: 2025年12月17日*
